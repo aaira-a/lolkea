@@ -1,4 +1,5 @@
 import httpretty
+import requests
 import unittest
 
 from checker import request_from_api
@@ -20,6 +21,26 @@ def url_helper(item_type):
     return base_api_url + str(itemNo)
 
 
+def ConnectionError_callback(request, uri, headers):
+    raise requests.exceptions.ConnectionError
+
+
+def HTTPError_callback(request, uri, headers):
+    raise requests.exceptions.HTTPError
+
+
+def Timeout_callback(request, uri, headers):
+    raise requests.exceptions.Timeout
+
+
+def TooManyRedirects_callback(request, uri, headers):
+    raise requests.exceptions.TooManyRedirects
+
+
+def RequestException_callback(request, uri, headers):
+    raise requests.exceptions.RequestException
+
+
 class RequestFromApiTest(unittest.TestCase):
 
     @httpretty.activate
@@ -35,3 +56,41 @@ class RequestFromApiTest(unittest.TestCase):
         r = request_from_api(invalid_item_id)
         self.assertIn(httpretty.last_request().path, url_helper('invalid'))
         self.assertEqual(r.status_code, 404)
+
+
+class RequestsExceptionHelperTest(unittest.TestCase):
+
+    @httpretty.activate
+    def test_callback_helpers_should_raise_RequestException_for_ConnectionError(self):
+        httpretty.register_uri(httpretty.GET, url_helper('valid'), body=ConnectionError_callback)
+        with self.assertRaises(requests.exceptions.RequestException):
+            requests.get(url_helper('valid'))
+        self.assertIn(httpretty.last_request().path, url_helper('valid'))
+
+    @httpretty.activate
+    def test_callback_helpers_should_raise_RequestException_for_HTTPError(self):
+        httpretty.register_uri(httpretty.GET, url_helper('valid'), body=HTTPError_callback)
+        with self.assertRaises(requests.exceptions.RequestException):
+            requests.get(url_helper('valid'))
+        self.assertIn(httpretty.last_request().path, url_helper('valid'))
+
+    @httpretty.activate
+    def test_callback_helpers_should_raise_RequestException_for_Timeout(self):
+        httpretty.register_uri(httpretty.GET, url_helper('valid'), body=Timeout_callback)
+        with self.assertRaises(requests.exceptions.RequestException):
+            requests.get(url_helper('valid'))
+        self.assertIn(httpretty.last_request().path, url_helper('valid'))
+
+    @httpretty.activate
+    def test_callback_helpers_should_raise_RequestException_for_TooManyRedirects(self):
+        httpretty.register_uri(httpretty.GET, url_helper('valid'), body=TooManyRedirects_callback)
+        with self.assertRaises(requests.exceptions.RequestException):
+            requests.get(url_helper('valid'))
+        self.assertIn(httpretty.last_request().path, url_helper('valid'))
+
+    @httpretty.activate
+    def test_callback_helpers_should_raise_RequestException_for_RequestException(self):
+        httpretty.register_uri(httpretty.GET, url_helper('valid'), body=RequestException_callback)
+        with self.assertRaises(requests.exceptions.RequestException):
+            requests.get(url_helper('valid'))
+        self.assertIn(httpretty.last_request().path, url_helper('valid'))

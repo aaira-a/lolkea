@@ -26,10 +26,12 @@ class RequestFromApiTest(unittest.TestCase):
     def test_successful_api_call_returns_200_status_code(self):
         httpretty.register_uri(httpretty.GET, url_helper('valid'), status=200)
         r = request_from_api(valid_item_id)
+        self.assertIn(httpretty.last_request().path, url_helper('valid'))
         self.assertEqual(r.status_code, 200)
 
     @httpretty.activate
     def test_api_call_with_invalid_item_id_returns_404_status_code(self):
         httpretty.register_uri(httpretty.GET, url_helper('invalid'), status=404)
         r = request_from_api(invalid_item_id)
+        self.assertIn(httpretty.last_request().path, url_helper('invalid'))
         self.assertEqual(r.status_code, 404)

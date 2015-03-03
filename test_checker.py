@@ -46,6 +46,11 @@ def RequestException_callback(request, uri, headers):
     raise requests.exceptions.RequestException
 
 
+def html_fixture_loader(file_path):
+    with open(file_path, 'r', newline='') as f:
+        return f.read()
+
+
 class RequestFromApiTest(unittest.TestCase):
 
     @httpretty.activate
@@ -133,3 +138,11 @@ class RequestFromApiExceptionHandlingTest(unittest.TestCase):
 
     def test_request_with_RequestException_should_return_none_response(self):
         self.simulate_api_request_exceptions(RequestException_callback)
+
+
+class ParseHtmlTest(unittest.TestCase):
+
+    def test_fixture_loader_helper_should_return_html_string(self):
+        output = html_fixture_loader('fixtures/valid_instock.html')
+        self.assertIn('<script>', output)
+        self.assertIsInstance(output, str)

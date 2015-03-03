@@ -81,3 +81,27 @@ class RequestsExceptionHelperTest(unittest.TestCase):
 
     def test_RequestException_should_raise_RequestException(self):
         self.raise_request_exceptions(RequestException_callback)
+
+
+class RequestFromApiExceptionHandlingTest(unittest.TestCase):
+
+    @httpretty.activate
+    def simulate_api_request_exceptions(self, callback):
+        httpretty.register_uri(httpretty.GET, url_helper('valid'), body=callback)
+        r = request_from_api(valid_item_id)
+        self.assertIsNone(r)
+
+    def test_request_with_ConnectionError_should_return_none_response(self):
+        self.simulate_api_request_exceptions(ConnectionError_callback)
+
+    def test_request_with_HTTPError_should_return_none_response(self):
+        self.simulate_api_request_exceptions(HTTPError_callback)
+
+    def test_request_with_Timeout_should_return_none_response(self):
+        self.simulate_api_request_exceptions(Timeout_callback)
+
+    def test_request_with_TooManyRedirects_should_return_none_response(self):
+        self.simulate_api_request_exceptions(TooManyRedirects_callback)
+
+    def test_request_with_RequestException_should_return_none_response(self):
+        self.simulate_api_request_exceptions(RequestException_callback)

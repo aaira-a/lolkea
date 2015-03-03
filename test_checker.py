@@ -2,7 +2,12 @@ import httpretty
 import requests
 import unittest
 
-from checker import request_from_api
+from unittest.mock import Mock
+
+from checker import (
+    is_status_code_200,
+    request_from_api,
+)
 
 
 base_api_url = 'http://m.ikea.com/my/en/store/availability/?storeCode=438&itemType=art&itemNo='
@@ -58,6 +63,28 @@ class RequestFromApiTest(unittest.TestCase):
         self.assertEqual(r.status_code, 404)
 
 
+class StatusCodeCheckerTest(unittest.TestCase):
+
+    def test_response_code_checker_should_return_true_for_status_code_200(self):
+        r = Mock()
+        r.status_code = 200
+        self.assertTrue(is_status_code_200(r))
+
+    def test_response_code_checker_should_return_false_for_status_code_other_than_200(self):
+        r = Mock()
+        status_codes = [100, 101, 102, 103, 122,
+                        201, 202, 203, 204, 205, 206, 207, 208, 226,
+                        300, 301, 302, 303, 304, 305, 306, 307, 308,
+                        400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415,
+                        416, 417, 418, 422, 423, 424, 425, 426, 428, 429, 431, 444, 449, 450, 451, 499,
+                        500, 501, 502, 503, 504, 505, 506, 507, 509, 510,
+                        ' ', 'a', None]
+
+        for code in status_codes:
+            r.status_code = code
+            self.assertFalse(is_status_code_200(r))
+
+
 class RequestsExceptionHelperTest(unittest.TestCase):
 
     @httpretty.activate
@@ -90,6 +117,7 @@ class RequestFromApiExceptionHandlingTest(unittest.TestCase):
         httpretty.register_uri(httpretty.GET, url_helper('valid'), body=callback)
         r = request_from_api(valid_item_id)
         self.assertIsNone(r)
+        self.assertIn(httpretty.last_request().path, url_helper('valid'))
 
     def test_request_with_ConnectionError_should_return_none_response(self):
         self.simulate_api_request_exceptions(ConnectionError_callback)

@@ -11,3 +11,7 @@ def request_from_api(item_id):
 
     except:
         return None
+
+
+def is_status_code_200(response):
+    return bool(response.status_code == 200)

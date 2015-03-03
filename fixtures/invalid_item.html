@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<!-- config -->
+<meta charset="utf-8">
+<meta name="viewport" id="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no">
+<meta name="title" content="Errorpage - IKEA">
+<!-- libraries -->
+<link rel="stylesheet" href="/irmw-resources/external/jquery.mobile-1.2.0.min.css"/>
+<script type="text/javascript" src="/irmw-resources/external/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/irmw-resources/external/jquery.mobile.custom-1.2.0.min.js"></script>
+<!-- custom stylesheets and scripts -->
+<link rel="stylesheet" href="/irmw-resources/css/ikea.mobile.min.css?v=5.20"/>
+<script type="text/javascript" charset="utf-8" src="/irmw-resources/js/ikea.mobile.min.js?v=5.20"></script>
+<!-- page specifc scripts -->
+<script>
+(function($){
+function loadSettings(){
+//Initialize dynamic configuration.
+$.mobile.retailUnit = 'my';
+$.mobile.languageCode = 'en';
+$.mobile.loadingMessage = "Loading";
+$.mobile.defaultShoppingBagName = "Shopping list";
+$.mobile.offlineLoadError = "The page you tried to go to can\'t be shown right now. You can still see your shopping list if you want.";
+$.mobile.loggedInAsMessage ="Logged in as {1}";
+$.mobile.currencySettings = {symbol: "RM", decimalSymbol: ".", positiveFormat: "%s%n", negativeFormat: "-%s%n", groupSymbol: ",", fractionDigits: "2", showFractionDigitsOnInteger: "false", integerSymbol: "", currencyCode: "MYR"};
+$.mobile.showLocalPrices = false;
+$.mobile.baseUrl = '/my/en/';
+$.mobile.isProduction = true;
+$.mobile.cookieDomain = '.ikea.com';
+$.mobile.fullSiteUrl = 'www.ikea.com';
+$.mobile.secureFullSiteUrl = 'secure.ikea.com';
+}
+loadSettings();
+}(jQuery));
+</script>
+<title id="txtHtmlTitle">Errorpage - IKEA</title>
+<link rel="shortcut icon" type="image/ico" href="/irmw-resources/img/favicon.ico"/>
+<link rel="apple-touch-icon-precomposed" href="/irmw-resources/img/apple-touch-icon-57x57-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/irmw-resources/img/apple-touch-icon-114x114-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/irmw-resources/img/apple-touch-icon-144x144-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="32x32" href="/irmw-resources/img/apple-touch-icon-32x32-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/irmw-resources/img/apple-touch-icon-57x57-precomposed.png" />
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/irmw-resources/img/apple-touch-icon-72x72-precomposed.png" />
+<!-- For Windows Phone (only 144x144 used)-->
+<meta name="msapplication-TileImage" content="/irmw-resources/img/apple-touch-icon-144x144-precomposed.png" />
+</head>
+<body itemscope itemtype="http://schema.org/WebPage">
+<div data-role="page" data-theme="d" id="mls1425382177961" data-dom-cache="false">
+<div id="cookies-legislation">
+<p>
+We use cookie to ensure that we give you best experience on our website. If you continue without changing your settings, we will assume that you are happy to receive all cookies on the IKEA website.
+</p>
+<div>
+<a data-ajax="false" href="?m=true">Read more about cookies</a>&nbsp;|&nbsp;<a data-ajax="false" href="?m=true">Privacy policy</a>
+</div>
+</div>
+<div id="cookies-legislation-bottom-border"></div>
+<div data-role="header" id="ikea-homeheader" data-backbtn="false">
+<div id="ikea-home-topbar">
+<div id="ikea-topbar-logocell">
+<a tabindex="-1" href="/my/en/" rel=external><span class="ikea-logo" title="" ></span></a>
+</div>
+<div id="ikea-topbar-iconcell">
+<div id="search-icon" onClick="$(this).parent().siblings('#ikea-topbar-searchfield').first().searchdecorate('toggle');"></div>
+</div>
+<div data-role="searchdecorate" id="ikea-topbar-searchfield"></div>
+</div>
+<div id="ikea-navbar" data-role="headerbar" data-moreListId="#ikea-more-list">
+<ul>
+<li class="ikea-navbar-item "><a href="http://m.ikea.com/my/en/" >Start</a></li>
+<li class="ikea-navbar-item "><a href="http://m.ikea.com/my/en/catalog/functional/" >Products</a></li>
+<li class="ikea-navbar-item "><a href="http://m.ikea.com/my/en/shoppinglist/" rel="nofollow">Shopping lists</a></li>
+<li class="ikea-navbar-item "><a href="http://m.ikea.com/my/en/stores/" >Store</a></li>
+<li class="ui-headerbar-more-item" data-role="headerbar-more-item"><a data-role="popupbutton" data-popup-content="more-item-popup" ><div class="ikea-navbar-more-image"></div></a></li>
+</ul>
+</div>
+</div>
+<div data-role="popup" id="more-item-popup">
+<ul data-role="listview" data-theme="d" id="ikea-more-list">
+</ul>
+<div data-role="popup-cancel-button">
+<div data-role="button" data-theme="c">Cancel</div>
+</div>
+</div>
+<!-- page content-->
+<script language="JavaScript" type="text/javascript">
+$('#mls1425382177961').bind('pageshow', function(){
+waMLS.initWebAnalyticsErrorTracking();
+});
+</script>
+<div class="ikea-error-headline">We apologise something seems to have gone wrong.</div>
+<div class="ikea-error-block">
+<img class="ikea-error-image" src="/irmw-resources/img/error.png" alt="IKEA">
+<div class="ikea-error-text">For some unknown reason, we failed to provide the information you requested and for this we are deeply sorry. We hope that this does not happen again!</div>
+<div class="ikea-error-gohome"><a href="http://www.ikea.com/" onClick="return waMLS.appendIRWURL(this)">Go to homepage</a></div>
+</div>
+<!-- /page content-->
+<!-- common footer-->
+<div class="ikea-footer-divider"></div>
+<div class="ikea-footer">
+<div>
+Mobile site | <a href="http://www.ikea.com/my/en/?preferedui=desktop" data-location="footer" onClick="return waMLS.appendIRWURL(this)">Full site</a>
+</div>
+<div>
+English
+|
+<a data-ajax="false" href="http://m.ikea.com/my/ms/">Bahasa Melayu</a>
+</div>
+<div>
+<a data-ajax="false" href="http://www.ikea.com/my/en/about_ikea/newsroom/product_recalls">Product recalls</a>
+|
+<a data-ajax="false" href="http://www.ikea.com/ms/en_MY/privacy_policy/privacy_policy.html">Privacy Policy</a>
+</div>
+<div id="footer-login" style="display: none">
+<a href="/my/en/login/" rel="nofollow" data-ajax="false">Log in</a> |
+<a href="/my/en/login/create/" data-ajax="false">Create profile</a>
+</div>
+<div id="footer-logout" style="display: none">
+<span id="logged-in-as"></span> |
+<a href="#" onclick="Login.logout();return false;" data-ajax="false" rel="nofollow">Log out</a>
+</div>
+<div class="ikea-footer-copyright">
+© Inter IKEA Systems B.V. 2012-2014
+</div>
+</div>
+</div>
+<noscript>
+<div style="display: none;">
+<img src="https://smetrics.ikea.com/b/ss/ikeaallmlsnojavascriptprod/5/?c8=my&amp;v7=my&amp;pageName=nojavascript" alt="" width="5" height="5" />
+</div>
+</noscript>
+</body>
+</html>     

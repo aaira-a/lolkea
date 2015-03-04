@@ -4,9 +4,13 @@ import unittest
 
 from unittest.mock import Mock
 
+from bs4 import BeautifulSoup
+
 from checker import (
+    extract_item_name,
     is_status_code_200,
     request_from_api,
+    soupify_html,
 )
 
 
@@ -146,3 +150,15 @@ class ParseHtmlTest(unittest.TestCase):
         output = html_fixture_loader('fixtures/valid_instock.html')
         self.assertIn('<script>', output)
         self.assertIsInstance(output, str)
+
+    def test_soupify_html_should_return_soup_object(self):
+        expected_soup = soupify_html('<h1>')
+        self.assertIsInstance(expected_soup, BeautifulSoup)
+
+    def test_extract_item_name_should_return_name_if_it_exists(self):
+        soup = BeautifulSoup(html_fixture_loader('fixtures/valid_instock.html'))
+        self.assertEqual(extract_item_name(soup), 'LENNART')
+
+    def test_extract_item_name_should_return_none_if_it_doesnt_exist(self):
+        soup = BeautifulSoup(html_fixture_loader('fixtures/invalid_item.html'))
+        self.assertEqual(extract_item_name(soup), None)

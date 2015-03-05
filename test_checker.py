@@ -7,6 +7,7 @@ from unittest.mock import Mock
 from bs4 import BeautifulSoup
 
 from checker import (
+    extract_item_availability,
     extract_item_name,
     is_status_code_200,
     request_from_api,
@@ -162,3 +163,11 @@ class ParseHtmlTest(unittest.TestCase):
     def test_extract_item_name_should_return_none_if_it_doesnt_exist(self):
         soup = BeautifulSoup(html_fixture_loader('fixtures/invalid_item.html'))
         self.assertEqual(extract_item_name(soup), None)
+
+    def test_extract_item_availability_should_return_stock_count_if_it_exists(self):
+        soup = BeautifulSoup(html_fixture_loader('fixtures/valid_instock.html'))
+        self.assertEqual(extract_item_availability(soup), '4')
+
+    def test_extract_item_availability_should_return_none_if_container_doesnt_exist(self):
+        soup = BeautifulSoup(html_fixture_loader('fixtures/invalid_item.html'))
+        self.assertEqual(extract_item_availability(soup), None)

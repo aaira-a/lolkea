@@ -31,3 +31,16 @@ def extract_item_name(html_soup):
 
     else:
         return None
+
+
+def extract_item_availability(html_soup):
+    try:
+        container = html_soup.find('div', class_='ikea-stockcheck-result').h3.contents
+        stock_text = container[0]
+        stock_count = container[1].contents[0]
+
+        if stock_text == 'Currently in stock at IKEA Damansara: ':
+            return stock_count
+
+    except:
+        return None

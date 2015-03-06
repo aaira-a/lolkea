@@ -1,4 +1,6 @@
+import datetime
 import httpretty
+import pytz
 import requests
 import unittest
 
@@ -7,6 +9,7 @@ from unittest.mock import Mock
 from bs4 import BeautifulSoup
 
 from checker import (
+    convert_to_datetime,
     extract_item_availability,
     extract_item_last_checked,
     extract_item_name,
@@ -175,9 +178,18 @@ class ParseHtmlTest(unittest.TestCase):
 
     def test_extract_item_last_checked_should_return_datetime_string(self):
         soup = BeautifulSoup(html_fixture_loader('fixtures/valid_instock.html'))
-        expected_datetime_unformatted = ['3.March.2015', '19:06 PM']
-        self.assertEqual(extract_item_last_checked(soup), expected_datetime_unformatted)
+        self.assertEqual(extract_item_last_checked(soup), '3.March.2015 19:06 PM')
 
     def test_extract_item_last_checked_should_return_none_if_datetime_string_doesnt_exist(self):
         soup = BeautifulSoup(html_fixture_loader('fixtures/invalid_item.html'))
         self.assertEqual(extract_item_last_checked(soup), None)
+
+
+class DateTimeConversionTests(unittest.TestCase):
+
+    def test_convert_raw_datetime_string_should_return_correct_datetime_object_in_kl_timezone(self):
+        expected_object = datetime.datetime(2015, 12, 3, hour=19, minute=37, tzinfo=pytz.timezone('Asia/Kuala_Lumpur'))
+        self.assertEqual(convert_to_datetime('3.December.2015 19:37 PM'), expected_object)
+
+    def test_convert_raw_datetime_string_should_return_none_if_it_fails(self):
+        self.assertIsNone(convert_to_datetime(''))

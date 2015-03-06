@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 
+import datetime
+import pytz
 import requests
 
 
@@ -53,7 +55,16 @@ def extract_item_last_checked(html_soup):
         date_unformatted = datetime_unformatted[0].string
         time_unformatted = datetime_unformatted[1].string
 
-        return [date_unformatted, time_unformatted]
+        return date_unformatted + ' ' + time_unformatted
 
     else:
+        return None
+
+
+def convert_to_datetime(raw_datetime_string):
+    try:
+        datetime_object = datetime.datetime.strptime(raw_datetime_string, "%d.%B.%Y %H:%M %p")
+        return datetime_object.replace(tzinfo=pytz.timezone('Asia/Kuala_Lumpur'))
+
+    except:
         return None

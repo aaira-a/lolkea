@@ -172,6 +172,10 @@ class ParseHtmlTest(unittest.TestCase):
         soup = BeautifulSoup(html_fixture_loader('fixtures/valid_instock.html'))
         self.assertEqual(extract_item_availability(soup), '4')
 
+    def test_extract_item_availability_should_return_zero_stock_count_if_no_stock_left(self):
+        soup = BeautifulSoup(html_fixture_loader('fixtures/valid_nostock.html'))
+        self.assertEqual(extract_item_availability(soup), '0')
+
     def test_extract_item_availability_should_return_none_if_container_doesnt_exist(self):
         soup = BeautifulSoup(html_fixture_loader('fixtures/invalid_item.html'))
         self.assertEqual(extract_item_availability(soup), None)

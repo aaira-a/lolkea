@@ -38,11 +38,19 @@ def extract_item_name(html_soup):
 def extract_item_availability(html_soup):
     try:
         container = html_soup.find('div', class_='ikea-stockcheck-result').h3.contents
-        stock_text = container[0].string
-        stock_count = container[1].string[0]
 
-        if stock_text == 'Currently in stock at IKEA Damansara: ':
-            return stock_count
+        if len(container) == 2:
+            stock_text = container[0].string
+            stock_count = container[1].string[0]
+
+            if stock_text == 'Currently in stock at IKEA Damansara: ':
+                return stock_count
+
+        elif len(container) == 1:
+            stock_text = container[0].string
+
+            if stock_text == 'Currently not in stock at IKEA Damansara':
+                return '0'
 
     except:
         return None

@@ -25,6 +25,16 @@ def soupify_html(html_str):
     return BeautifulSoup(html_str)
 
 
+def is_under_maintenance(html_soup):
+    title = html_soup.title.string
+
+    if 'maintenance' in title.lower():
+        return True
+
+    else:
+        return False
+
+
 def extract_item_name(html_soup):
     name = html_soup.find_all('h3', class_='ikea-find-in-store-indent')
 

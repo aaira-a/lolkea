@@ -14,6 +14,7 @@ from checker import (
     extract_item_last_checked,
     extract_item_name,
     is_status_code_200,
+    is_under_maintenance,
     request_from_api,
     soupify_html,
 )
@@ -187,6 +188,14 @@ class ParseHtmlTest(unittest.TestCase):
     def test_extract_item_last_checked_should_return_none_if_datetime_string_doesnt_exist(self):
         soup = BeautifulSoup(html_fixture_loader('fixtures/invalid_item.html'))
         self.assertEqual(extract_item_last_checked(soup), None)
+
+    def test_maintenance_checker_should_return_true_if_html_contains_maintenance_string_in_title(self):
+        soup = BeautifulSoup(html_fixture_loader('fixtures/maintenance.html'))
+        self.assertTrue(is_under_maintenance(soup))
+
+    def test_maintenance_checker_should_return_false_if_html_doesnt_contain_maintenance_string_in_title(self):
+        soup = BeautifulSoup(html_fixture_loader('fixtures/invalid_item.html'))
+        self.assertFalse(is_under_maintenance(soup))
 
 
 class DateTimeConversionTests(unittest.TestCase):
